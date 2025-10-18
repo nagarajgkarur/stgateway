@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/product/**, /api/v1/company/**
+        - id: purchase-service
+          uri: lb://purchase-service
+          predicates:
+            - Path=/api/v1/purchase/**
+        - id: sales-service
+          uri: lb://salse-service
+          predicates:
+            - Path=/api/v1/sales/**,/api/v1/shop/**
+  application:
+    name: stgateway
+server:
+  port: 8087
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8086/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true
