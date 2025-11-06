@@ -1,38 +1,14 @@
 spring:
-  cloud:
-    gateway:
-      routes:
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/api/v1/product/**, /api/v1/company/**
-        - id: purchase-service
-          uri: lb://purchase-service
-          predicates:
-            - Path=/api/v1/purchase/**
-        - id: sales-service
-          uri: lb://sales-service
-          predicates:
-            - Path=/api/v1/sales/**,/api/v1/shop/**
-        - id: stock-service
-          uri: lb://stock-service
-          predicates:
-            - Path=/api/v1/inventory** 
+  kafka:
+    bootstrap-servers: localhost:9092
+  config:
+    import: optional:configserver:http://localhost:8085
   application:
     name: stgateway
-server:
-  port: 8087
-  
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8086/eureka/
-
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
-  endpoint:
-    gateway:
-      enabled: true
+        include: busrefresh,refresh,health,info
+app:
+  message: this is gateway server
